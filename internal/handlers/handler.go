@@ -1,9 +1,6 @@
 package handlers
 
 import (
-	//_ "AvitoTesting/cmd/main/docs"
-	// "AvitoTesting/pkg/client/models"
-	// "AvitoTesting/pkg/utils"
 	"D0SL_organizer/internal/repositories"
 	"D0SL_organizer/pkg/client/models"
 	"D0SL_organizer/pkg/utils"
@@ -11,8 +8,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	// "github.com/kataras/iris/v12/cache/client"
-	// "gorm.io/gorm"
 )
 
 type handler struct {
