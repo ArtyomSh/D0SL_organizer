@@ -1,10 +1,6 @@
 package main
 
 import (
-	// _ "AvitoTesting/docs"
-	// "AvitoTesting/internal/config"
-	// "AvitoTesting/internal/handlers"
-	// "AvitoTesting/pkg/client/postgres"
 	"D0SL_organizer/internal/config"
 	"D0SL_organizer/internal/handlers"
 	"net/http"
@@ -15,8 +11,6 @@ import (
 	"log"
 
 	"github.com/gorilla/mux"
-	// "gorm.io/gorm/logger"
-	// httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {

@@ -46,13 +46,11 @@ func InitMilvusClient(ctx context.Context, client *client.Client) *client.Client
 		log.Fatal("failed to check whether collection exists:", err.Error())
 	}
 	if has {
-		// collection with same name exist, clean up mess
 		fmt.Println("already exist")
 		// _ = (*client).DropCollection(ctx, collectionName)
 		return client
 	}
 
-	// define collection schema, see film.csv
 	schema := entity.NewSchema().WithName(collectionName).WithDescription("this is the example collection for insert and search").
 		WithField(entity.NewField().WithName("ID").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
 		WithField(entity.NewField().WithName("Link").WithDataType(entity.FieldTypeVarChar).WithMaxLength(2000)).
@@ -70,7 +68,6 @@ func InitMilvusClient(ctx context.Context, client *client.Client) *client.Client
 	}
 
 	fmt.Println("count: ", len(videos))
-	// row-base covert to column-base
 	ids := make([]int64, 0, len(videos))
 	links := make([]string, 0, len(videos))
 	descriptions := make([]string, 0, len(videos))
@@ -78,7 +75,6 @@ func InitMilvusClient(ctx context.Context, client *client.Client) *client.Client
 	for idx, video := range videos {
 		ids = append(ids, video.ID)
 		links = append(links, video.Link)
-		// idTitle[film.ID] = film.Title
 		descriptions = append(descriptions, video.Description)
 		vectors = append(vectors, videos[idx].Vector[:]) // prevent same vector
 	}
@@ -87,7 +83,6 @@ func InitMilvusClient(ctx context.Context, client *client.Client) *client.Client
 	descriptionColumn := entity.NewColumnVarChar("Description", descriptions)
 	vectorColumn := entity.NewColumnFloatVector("Vector", vectorDim, vectors)
 
-	// insert into default partition
 	_, err = (*client).Insert(ctx, collectionName, "", idColumn, linkColumn, descriptionColumn, vectorColumn)
 	if err != nil {
 		log.Fatal("failed to insert film data:", err.Error())
@@ -156,7 +151,6 @@ func loadVideoCSV() ([]models.Video, error) {
 			}
 			fi.Vector[idx] = float32(v)
 		}
-		// fmt.Println("Video: ", fi)
 		videos = append(videos, fi)
 	}
 	return videos, nil
@@ -173,7 +167,6 @@ func (m *MilvusVideoRepo) AddVideo(video models.Video) error {
 	descriptionColumn := entity.NewColumnVarChar("Description", descriptions)
 	vectorColumn := entity.NewColumnFloatVector("Vector", vectorDim, vectors)
 
-	// insert into default partition
 	_, err := (*m.client).Insert(context.Background(), collectionName, "", idColumn, linkColumn, descriptionColumn, vectorColumn)
 	if err != nil {
 		log.Fatal("failed to insert new video:", err.Error())
