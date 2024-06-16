@@ -1,0 +1,11 @@
+---
+listen:
+  port:  8001
+postgres:
+  host: localhost
+  port: 19530
+  database: milvus
+  # username: postgres
+  # password: pass
+# repository
+#   type: milvus
